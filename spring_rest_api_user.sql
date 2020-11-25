@@ -10,5 +10,3 @@ create user 'spring_rest_api_user'@'localhost' identified by 'qwe123';
 # specify priviliges to user
 grant CREATE, DROP, ALTER, SELECT, UPDATE, INSERT, DELETE, REFERENCES
 on spring_rest_api_db.* to 'spring_rest_api_user'@'localhost';
-
-hola
