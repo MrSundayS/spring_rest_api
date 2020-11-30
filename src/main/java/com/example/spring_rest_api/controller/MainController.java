@@ -1,11 +1,12 @@
 package com.example.spring_rest_api.controller;
 import com.example.spring_rest_api.model.User;
+import com.example.spring_rest_api.service.UserServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 // CheetSheet
 // ALT + Enter -> auto-hints
@@ -14,6 +15,31 @@ import java.time.LocalDateTime;
 // ALT + Ins -> auto-generate
 @RestController   // controller class -> mapping http request for method java methods
 public class MainController {
+    private UserServer userService;
+    // ALT + Enter - generate constructor
+    @Autowired
+    public MainController(UserServer userService) {
+        this.userService = userService;
+    }
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
+    @PostMapping("/users/register")
+    public User registerUser(
+        @RequestParam("name") String name,
+        @RequestParam("lastName") String lastName,
+        @RequestParam("email") String email,
+        @RequestParam("password") String password
+        ){
+        return userService.addUser(new User(name,lastName,email,password));
+    }
+    @GetMapping("/users/findByEmail")
+    public User getUserByEmail(
+            @RequestParam("email") String email
+    ){
+        return userService.getUserByEmail(email);
+    }
     @GetMapping("/")        // http://www.localhost:8080/
     public String homepage(){
         return "Hello in hompage";
