@@ -1,5 +1,6 @@
 package com.example.spring_rest_api.controller;
 import com.example.spring_rest_api.model.User;
+import com.example.spring_rest_api.repository.UserRepository;
 import com.example.spring_rest_api.service.UserServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,19 @@ import java.util.List;
 @RestController   // controller class -> mapping http request for method java methods
 public class MainController {
     private UserServer userService;
+    private UserRepository userRepository;
     // ALT + Enter - generate constructor
     @Autowired
     public MainController(UserServer userService) {
         this.userService = userService;
+    }
+    @DeleteMapping("/users/delete/{userId}")
+    public boolean deleteUserById(@PathVariable("userId")int userId){
+        return userService.deleteUserById(userId);
+    }
+    @PutMapping("/users/changePassword")
+    public User updatePassword(@RequestParam("userId") int userId, @RequestParam("newPassword")String newPassword){
+        return userService.updatePassword(userId,newPassword);
     }
     @GetMapping("/users")
     public List<User> getAllUsers(){
@@ -40,6 +50,7 @@ public class MainController {
     ){
         return userService.getUserByEmail(email);
     }
+
     @GetMapping("/")        // http://www.localhost:8080/
     public String homepage(){
         return "Hello in hompage";
