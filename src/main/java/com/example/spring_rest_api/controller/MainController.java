@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 // CheetSheet
@@ -61,7 +62,7 @@ public class MainController {
             @PathVariable("lastName") String lastName, @PathVariable("email") String email,
             @PathVariable("password") String password
     ){
-        return new User(userId, name, lastName, email,password, LocalDateTime.now(), false);
+        return new User(userId, name, lastName, email,password, LocalDateTime.now(), false, new HashSet<>());
     }
 
 }
